@@ -5,9 +5,7 @@ from pathlib import Path
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings.sentence_transformer import (
-    SentenceTransformerEmbeddings,
-)
+from langchain_huggingface import HuggingFaceEmbeddings
 from utils import populate_source_files
 
 
@@ -18,7 +16,7 @@ def load_file(filepath: str) -> None:
     logging.info("Successfully loaded the doc: %s", filepath)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     splits = text_splitter.split_documents(docs)
-    vectorstore = Chroma.from_documents(documents=splits, embedding=SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2"))
+    vectorstore = Chroma.from_documents(documents=splits, embedding=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2"))
 
 
 if __name__ == "__main__":

@@ -9,3 +9,4 @@ chromadb==0.4.15
 gpt4all==1.0.12
 faiss-cpu==1.8.0
 sentence-transformers==3.0.1
+langchain-huggingface==0.0.3

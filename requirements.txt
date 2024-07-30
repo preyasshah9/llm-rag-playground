@@ -7,3 +7,5 @@ langchain-openai==0.1.19
 langchain-chroma==0.1.2
 chromadb==0.4.15
 gpt4all==1.0.12
+faiss-cpu==1.8.0
+sentence-transformers==3.0.1

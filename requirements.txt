@@ -1,4 +1,9 @@
 openai==1.37.1
 langchain==0.2.11
 llama-index==0.10.58
-
+langchain-community==0.2.10
+urllib3==1.26.6
+langchain-openai==0.1.19
+langchain-chroma==0.1.2
+chromadb==0.4.15
+gpt4all==1.0.12

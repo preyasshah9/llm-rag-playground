@@ -11,6 +11,9 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from utils import populate_source_files
 
 
+def format_docs(docs) -> str:
+    return "\n\n".join(doc.page_content for doc in docs)
+
 def load_file(filepath: str) -> List[Document]:
     """Extract the information from PDF files."""
     loader = PyPDFLoader(filepath)
@@ -32,7 +35,8 @@ def load_db(root_folder: Path) -> Chroma:
     documents: List[Document] = []
     for f in files:
         logging.info("Loading %s", f)
-        documents.extend(load_file(f))
+        split_documents = load_file(f)
+        documents.extend(split_documents)
     vectorstore = Chroma.from_documents(documents=documents, embedding=get_embedding_function(model_name="all-MiniLM-L6-v2"))
     return vectorstore
 

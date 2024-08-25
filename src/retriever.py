@@ -8,7 +8,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.llms import Ollama
 from langchain_core.runnables import RunnablePassthrough
 
-from loader import load_db
+from loader import format_docs, load_db
 from template import PROMPT_TEMPLATE
 
 
@@ -17,12 +17,12 @@ if __name__ == "__main__":
     vector_database = load_db(Path(__file__).parent.parent)
     retriever = vector_database.as_retriever(
         search_type="similarity_score_threshold",
-        search_kwargs={'score_threshold': 0.8, 'k': 2}
+        search_kwargs={'score_threshold': 0.8, 'k': 3}
     )
     prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     model = Ollama(model="llama3.1")
     chain = (
-    {"context": retriever, "input": RunnablePassthrough()}
+    {"context": retriever | format_docs, "input": RunnablePassthrough()}
     | prompt
     | model
     | StrOutputParser()

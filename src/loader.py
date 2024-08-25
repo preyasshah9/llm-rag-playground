@@ -21,6 +21,11 @@ def load_file(filepath: str) -> List[Document]:
     return splits
 
 
+def get_embedding_function(model_name: str) -> HuggingFaceEmbeddings:
+    """Embedding function to use for embedding the vector tokens."""
+    return HuggingFaceEmbeddings(model_name=model_name)
+
+
 def load_db(root_folder: Path) -> Chroma:
     """Load the vector database and return the chroma instance."""
     files = populate_source_files(root_folder)
@@ -28,7 +33,7 @@ def load_db(root_folder: Path) -> Chroma:
     for f in files:
         logging.info("Loading %s", f)
         documents.extend(load_file(f))
-    vectorstore = Chroma.from_documents(documents=documents, embedding=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2"))
+    vectorstore = Chroma.from_documents(documents=documents, embedding=get_embedding_function(model_name="all-MiniLM-L6-v2"))
     return vectorstore
 
 

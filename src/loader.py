@@ -12,6 +12,8 @@ from utils import populate_source_files
 
 
 def format_docs(docs) -> str:
+    for doc in docs:
+        print(doc.page_content)
     return "\n\n".join(doc.page_content for doc in docs)
 
 def load_file(filepath: str) -> List[Document]:
@@ -19,8 +21,9 @@ def load_file(filepath: str) -> List[Document]:
     loader = PyPDFLoader(filepath)
     docs = loader.load()
     logging.info("Successfully loaded the doc: %s", filepath)
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50, add_start_index=True)
     splits = text_splitter.split_documents(docs)
+    print(f"Splitting Doc into {len(splits)} chunks")
     return splits
 
 
